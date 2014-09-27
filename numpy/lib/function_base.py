@@ -239,7 +239,7 @@ def histogram(a, bins=10, range=None, normed=False, weights=None,
             return n, bins
 
 
-def histogramdd(sample, bins=10, range=None, normed=False, weights=None):
+def histogramdd(sample, bins=10, range=None, normed=False, weights=None, density=None):
     """
     Compute the multidimensional histogram of some data.
 
@@ -419,18 +419,28 @@ def histogramdd(sample, bins=10, range=None, normed=False, weights=None):
     hist = hist[core]
 
     # Normalize if normed is True
-    if normed:
-        s = hist.sum()
-        for i in arange(D):
+    if density is not None:
+       if density:
+          s = hist.sum()
+          for i in arange(D):
             shape = ones(D, int)
             shape[i] = nbin[i] - 2
             hist = hist / dedges[i].reshape(shape)
-        hist /= s
+          hist /= s
+    else:
+       if normed:
+       	  s = hist.sum()
+      	  for i in arange(D):
+            shape = ones(D, int)
+            shape[i] = nbin[i] - 2
+            hist = hist / dedges[i].reshape(shape)
+          hist /= s
 
     if (hist.shape != nbin - 2).any():
-        raise RuntimeError(
-            "Internal Shape Error")
+        raise RuntimeError("Internal Shape Error")
+       	 
     return hist, edges
+		
 
 
 def average(a, axis=None, weights=None, returned=False):

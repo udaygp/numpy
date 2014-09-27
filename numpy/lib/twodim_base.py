@@ -575,7 +575,7 @@ def vander(x, N=None, increasing=False):
     return v
 
 
-def histogram2d(x, y, bins=10, range=None, normed=False, weights=None):
+def histogram2d(x, y, bins=10, range=None, normed=False, weights=None, density=None):
     """
     Compute the bi-dimensional histogram of two data samples.
 
@@ -707,7 +707,7 @@ def histogram2d(x, y, bins=10, range=None, normed=False, weights=None):
     if N != 1 and N != 2:
         xedges = yedges = asarray(bins, float)
         bins = [xedges, yedges]
-    hist, edges = histogramdd([x, y], bins, range, normed, weights)
+    hist, edges = histogramdd([x, y], bins, range, normed, weights, density)
     return hist, edges[0], edges[1]
 
 
